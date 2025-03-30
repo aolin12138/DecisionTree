@@ -6,6 +6,7 @@ Author: Aolin Yang
 
 import pandas as pd
 import numpy as np
+from tree_node import TreeNode
 
 
 def map_features(df):
@@ -26,6 +27,8 @@ def entropy(df):
     zero_count = counts.get(0, 0)
     one_count = counts.get(1, 0)
     total_count = zero_count + one_count
+    if zero_count == 0 or one_count == 0:
+        return 0
     # Adding a small constant to avoid log(0)
     entropy = -(
         (zero_count / total_count) * np.log2(zero_count / total_count + 1e-10) +
@@ -60,7 +63,7 @@ def information_gain(df, feature, target_column):
     return initial_entropy - weighted_entropy
 
 
-def best_feature(df):
+def calculate_best_feature(df):
     """
     Find the best feature to split on.
     """
@@ -78,6 +81,9 @@ def best_feature(df):
                 best_gain = gain
                 best_feature = feature
                 best_feature_column = column
+    print(f"Best feature: {best_feature}")
+    print(f"Best feature column: {best_feature_column}")
+    print("")
 
     return best_feature, best_feature_column
 
@@ -86,6 +92,10 @@ init_df = pd.read_csv('data/training/adult_train_data.csv')
 
 print(map_features(init_df)['workclass'])
 
-best_feature, best_feature_column = best_feature(init_df)
+best_feature, best_feature_column = calculate_best_feature(init_df)
 print(f"Best feature: {best_feature}")
 print(f"Best feature column: {best_feature_column}")
+
+my_decision_tree = TreeNode(data=init_df)
+my_decision_tree.train()
+print("Decision tree training completed.")
