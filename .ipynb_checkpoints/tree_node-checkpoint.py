@@ -86,25 +86,19 @@ class TreeNode:
     def print_tree(self, depth=0, direction=None):
         """ Recursively print the tree structure """
 
-        if self.index > 6:
+        if self.index > 8:
             return
 
         indent = "   " * depth
         if self.feature is not None:
             if direction == "left":
                 print(
-                    f"{indent}├── {self.index} No, then: check {self.column} to be {self.feature}")
+                    f"{indent}├── {self.index} Elseif: {self.column}.{self.feature}")
             elif direction == "right":
                 print(
-                    f"{indent}├── {self.index} Yes, then: check {self.column} to be {self.feature}")
-            else:
-                print(
-                    f"{indent}├── {self.index} Root: check {self.column} to be {self.feature}")
+                    f"{indent}├── {self.index} If: {self.column}.{self.feature}")
         else:
-            if direction == "left":
-                print(f"{indent}├── {self.index} No, then: output {self.label}")
-            elif direction == "right":
-                print(f"{indent}├── {self.index} Yes, then: output {self.label}")
+            print(f"{indent}└── {self.index} output {self.label}")
 
         if self.right is not None:
             self.right.print_tree(depth=depth + 1, direction="right")
@@ -185,44 +179,3 @@ class TreeNode:
             return 0
         f1 = 2 * (precision * recall) / (precision + recall)
         return f1
-
-    def confusion_matrix(self, df):
-        """
-        Calculate the confusion matrix of the decision tree on the given DataFrame.
-        """
-
-        predictions = self.predict_all(df)
-        true_positives = sum(
-            (predictions == df['income_more50K']) & (df['income_more50K'] == 1))
-        false_positives = sum(
-            (predictions != df['income_more50K']) & (df['income_more50K'] == 0))
-        false_negatives = sum(
-            (predictions != df['income_more50K']) & (df['income_more50K'] == 1))
-        true_negatives = sum(
-            (predictions == df['income_more50K']) & (df['income_more50K'] == 0))
-
-        matrix = pd.DataFrame(
-            [[true_positives, false_negatives], [false_positives, true_negatives]],
-            index=["Actual Positive", "Actual Negative"],
-            columns=["Predicted Positive", "Predicted Negative"]
-        )
-
-        return matrix
-
-    def print_statistics(self, df):
-        """
-        Print the statistics of the decision tree on the given DataFrame.
-        """
-        print("")
-        print("-------------------------------------------------")
-        print("")
-        print(f"Decision Tree Statistics for max depth {self.max_depth}:")
-        print("")
-        print(f"Training Accuracy: {self.accuracy(self.data) * 100:.2f}%")
-        print(f"Testing Accuracy: {self.accuracy(df) * 100:.2f}%")
-        print(f"Recall: {self.recall(df) * 100:.2f}%")
-        print(f"Precision: {self.precision(df) * 100:.2f}%")
-        print(f"F1 Score: {self.f1_score(df) * 100:.2f}%")
-
-        print("Confusion Matrix:")
-        print(self.confusion_matrix(df))

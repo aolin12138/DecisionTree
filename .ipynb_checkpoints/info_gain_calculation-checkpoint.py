@@ -36,8 +36,10 @@ def information_gain(df, feature, target_column):
     """
     Calculate the information gain of a feature.
     """
+    # Calculate the entropy of the target column
     initial_entropy = entropy(df)
 
+    # Calculate the weighted entropy after splitting on the feature
     weighted_entropy = 0
     correct_subset = df[df[target_column] == feature]
     incorrect_subset = df[df[target_column] != feature]
@@ -45,12 +47,14 @@ def information_gain(df, feature, target_column):
     correct_count = len(correct_subset)
     incorrect_count = len(incorrect_subset)
 
+    # Calculate the entropy of the correct and incorrect subsets
     correct_entropy = entropy(correct_subset)
     incorrect_entropy = entropy(incorrect_subset)
-
+    # Calculate the weighted entropy
     weighted_entropy += (correct_count / total_count) * correct_entropy
     weighted_entropy += (incorrect_count / total_count) * incorrect_entropy
 
+    # Information gain is the difference between the initial entropy and the weighted entropy
     return initial_entropy - weighted_entropy
 
 

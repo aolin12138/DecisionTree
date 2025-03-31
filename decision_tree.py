@@ -5,7 +5,6 @@ Author: Aolin Yang
 """
 
 import pandas as pd
-import numpy as np
 from tree_node import TreeNode
 
 
@@ -18,8 +17,13 @@ my_decision_tree_3 = TreeNode(data=init_df, index=0, max_depth=3)
 my_decision_tree_3.train()
 my_decision_tree_4 = TreeNode(data=init_df, index=0, max_depth=4)
 my_decision_tree_4.train()
-my_decision_tree_no_depth = TreeNode(data=init_df, index=0)
-my_decision_tree_no_depth.train()
+my_decision_tree_10 = TreeNode(data=init_df, index=0, max_depth=10)
+my_decision_tree_10.train()
+
+my_decision_tree_15 = TreeNode(data=init_df, index=0, max_depth=15)
+my_decision_tree_15.train()
+# my_decision_tree_no_depth = TreeNode(data=init_df, index=0)
+# my_decision_tree_no_depth.train()
 
 print("Decision tree training completed.")
 
@@ -27,34 +31,21 @@ my_decision_tree_2.print_tree()
 my_decision_tree_3.print_tree()
 my_decision_tree_4.print_tree()
 
-print("Decision tree with max depth 2:")
 
-print(my_decision_tree_2.accuracy(init_df))
-print(my_decision_tree_2.accuracy(test_df))
-print(my_decision_tree_2.recall(test_df))
-print(my_decision_tree_2.precision(test_df))
-print(my_decision_tree_2.f1_score(test_df))
+my_decision_tree_2.print_statistics(test_df)
 
-print("Decision tree with max depth 3:")
+my_decision_tree_3.print_statistics(test_df)
 
-print(my_decision_tree_3.accuracy(init_df))
-print(my_decision_tree_3.accuracy(test_df))
-print(my_decision_tree_3.recall(test_df))
-print(my_decision_tree_3.precision(test_df))
-print(my_decision_tree_3.f1_score(test_df))
+my_decision_tree_4.print_statistics(test_df)
 
-print("Decision tree with max depth 4:")
+my_decision_tree_10.print_statistics(test_df)
 
-print(my_decision_tree_4.accuracy(init_df))
-print(my_decision_tree_4.accuracy(test_df))
-print(my_decision_tree_4.recall(test_df))
-print(my_decision_tree_4.precision(test_df))
-print(my_decision_tree_4.f1_score(test_df))
+my_decision_tree_15.print_statistics(test_df)
 
-print("Decision tree with no max depth:")
+# print("Decision tree with no max depth:")
 
-print(my_decision_tree_no_depth.accuracy(init_df))
-print(my_decision_tree_no_depth.accuracy(test_df))
-print(my_decision_tree_no_depth.recall(test_df))
-print(my_decision_tree_no_depth.precision(test_df))
-print(my_decision_tree_no_depth.f1_score(test_df))
+# print(my_decision_tree_no_depth.accuracy(init_df))
+# print(my_decision_tree_no_depth.accuracy(test_df))
+# print(my_decision_tree_no_depth.recall(test_df))
+# print(my_decision_tree_no_depth.precision(test_df))
+# print(my_decision_tree_no_depth.f1_score(test_df))
